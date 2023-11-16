@@ -1,0 +1,76 @@
+/* styles/Home.module.css */
+.container {
+  max-width: 90%;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.inputContainer {
+  margin-bottom: 15px;
+}
+
+.inputLabel {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+
+.simulateButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.simulateButton:hover {
+  background-color: #45a049;
+}
+
+.pendulum {
+  width: 10px;
+  height: 100px;
+  background-color: #333;
+  position: relative;
+  margin: 20px 0;
+}
+
+.splitContainer {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap; 
+}
+
+.half {
+  flex: 1;
+  padding: 20px; 
+  box-sizing: border-box; 
+}
+
+
+.animationContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 750px) {
+  .half {
+    flex: 100%; /* Ocupa todo el ancho disponible */
+  }
+}

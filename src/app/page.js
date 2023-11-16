@@ -1,113 +1,108 @@
-import Image from 'next/image'
+'use client'
 
-export default function Home() {
+import React, { useState, useEffect } from 'react';
+import styles from '../../styles/Home.module.css';
+import AnimacionPendulo from './AnimacionPendulo';
+import '../../styles/AnimacionPendulo.css';
+
+const g = 9.81;
+
+const Home = () => {
+  const [length, setLength] = useState(1);
+  const [mass, setMass] = useState(1);
+  const [angle, setAngle] = useState(45);
+  const [results, setResults] = useState(null);
+  const [amplitud, setAmplitud] = useState(45);
+  const [aceleracionGravedad, setAceleracionGravedad] = useState(0.1);
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [rodHeight, setRodHeight] = useState();
+  const [ballSize, setBallSize] = useState(20);
+
+  const simulatePendulum = () => {
+    if (length === 0 || mass === 0 || angle === 0) {
+      alert('Los valores de longitud, masa y ángulo no pueden ser 0. Ingresa valores válidos.');
+      return;
+    }
+
+    const radians = (angle * Math.PI) / 180;
+    const period = 2 * Math.PI * Math.sqrt(length / g);
+    const amplitude = angle;
+    const potentialEnergy = mass * g * length * (1 - Math.cos(radians));
+    const kineticEnergy = 0.5 * mass * Math.pow(length, 2) * Math.pow(angle, 2);
+
+    setResults({
+      period: period.toFixed(2),
+      amplitude: parseFloat(amplitude).toFixed(2),
+      potentialEnergy: potentialEnergy.toFixed(2),
+      kineticEnergy: kineticEnergy.toFixed(2),
+    });
+
+    setAmplitud(angle);
+    setAceleracionGravedad(g);
+    setRodHeight(length); 
+    setBallSize(mass * 10); 
+    setShowAnimation(true);
+  };
+
+  useEffect(() => {
+    setShowAnimation(false);
+  }, [length, mass, angle]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Péndulo Simulator</h1>
+
+      <div className={styles.splitContainer}>
+        {/* Primera mitad: Campos de texto y resultados */}
+        <div className={styles.half}>
+          <div className={styles.inputContainer}>
+            <label className={styles.inputLabel}>Longitud del Péndulo (metros):</label>
+            <input type="number" value={length} onChange={(e) => setLength(e.target.value)} />
+          </div>
+
+          <div className={styles.inputContainer}>
+            <label className={styles.inputLabel}>Masa del Péndulo (kilogramos):</label>
+            <input type="number" value={mass} onChange={(e) => setMass(e.target.value)} />
+          </div>
+
+          <div className={styles.inputContainer}>
+            <label className={styles.inputLabel}>Ángulo Inicial del Péndulo (grados):</label>
+            <input type="number" value={angle} onChange={(e) => setAngle(e.target.value)} />
+          </div>
+
+          <button className={styles.simulateButton} onClick={simulatePendulum}>
+            Simular Péndulo
+          </button>
+
+          {results && (
+            <div className={styles.resultsContainer}>
+              <h2>Resultados de la Simulación</h2>
+              <p>Periodo: {results.period} segundos</p>
+              <p>Amplitud: {results.amplitude} grados</p>
+              <p>Energía Potencial: {results.potentialEnergy} joules</p>
+              <p>Energía Cinética: {results.kineticEnergy} joules</p>
+            </div>
+          )}
+        </div>
+
+        {/* Segunda mitad: Animación */}
+        <div className={styles.half}>
+          <div className={styles.animationContainer}>
+            {showAnimation && (
+              <AnimacionPendulo
+                amplitud={amplitud}
+                mass={mass}
+                angle={angle}
+                rodHeight={length}
+                aceleracionGravedad={aceleracionGravedad}
+                ballSize={ballSize}
+              />
+            )}
+          </div>
         </div>
       </div>
+    </div>
+  );
+};
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Home;
