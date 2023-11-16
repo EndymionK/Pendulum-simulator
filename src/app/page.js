@@ -15,7 +15,7 @@ const Home = () => {
   const [amplitud, setAmplitud] = useState(45);
   const [aceleracionGravedad, setAceleracionGravedad] = useState(0.1);
   const [showAnimation, setShowAnimation] = useState(false);
-  const [rodHeight, setRodHeight] = useState();
+  const [rodHeight, setRodHeight] = useState(10);
   const [ballSize, setBallSize] = useState(20);
 
   const simulatePendulum = () => {
@@ -50,7 +50,7 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Péndulo Simulator</h1>
+      <h1 className={styles.title}>Simulador de Pendulo</h1>
 
       <div className={styles.splitContainer}>
         {/* Primera mitad: Campos de texto y resultados */}
@@ -93,7 +93,7 @@ const Home = () => {
                 amplitud={amplitud}
                 mass={mass}
                 angle={angle}
-                rodHeight={length}
+                rodHeight={rodHeight}
                 aceleracionGravedad={aceleracionGravedad}
                 ballSize={ballSize}
               />

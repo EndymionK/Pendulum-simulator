@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 // AnimacionPendulo.js
 import React, { useEffect } from 'react';
 import anime from 'animejs';
@@ -19,7 +19,7 @@ const AnimacionPendulo = ({ angle, rodHeight, mass }) => {
     return () => {
       rodAnimation.pause();
     };
-  }, [angle, rodHeight]);
+  },);
 
   return (
     <div id="rod" className="pendulum-rod" style={{ height: rodHeight * 50 + 'px' }}>
@@ -31,7 +31,6 @@ const AnimacionPendulo = ({ angle, rodHeight, mass }) => {
 
 AnimacionPendulo.propTypes = {
   angle: PropTypes.number.isRequired,
-  rodHeight: PropTypes.number.isRequired,
 };
 
 export default AnimacionPendulo;
