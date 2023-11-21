@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Home.module.css';
 import AnimacionPendulo from './AnimacionPendulo';
 import '../../styles/AnimacionPendulo.css';
+import AlertModal from './AlertModal';
 
 const g = 9.81;
 
@@ -17,8 +18,16 @@ const Home = () => {
   const [showAnimation, setShowAnimation] = useState(false);
   const [rodHeight, setRodHeight] = useState(10);
   const [ballSize, setBallSize] = useState(20);
+  const [showAlert, setShowAlert] = useState(false);
+
 
   const simulatePendulum = () => {
+
+    if (angle > 12) {
+      // Si el ángulo es muy grande, mostrar la alerta
+      setShowAlert(true);
+    }
+
     if (length === 0 || mass === 0 || angle === 0) {
       alert('Los valores de longitud, masa y ángulo no pueden ser 0. Ingresa valores válidos.');
       return;
@@ -101,6 +110,14 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {showAlert && (
+        <AlertModal
+          closeModal={() => setShowAlert(false)}
+          message="El ángulo es muy grande y la ecuación podría no ser precisa. Por favor, ingresa un ángulo menor."
+        />
+      )}
+
     </div>
   );
 };
