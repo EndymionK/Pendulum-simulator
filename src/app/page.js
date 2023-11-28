@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Home.module.css';
@@ -19,39 +19,43 @@ const Home = () => {
   const [rodHeight, setRodHeight] = useState(10);
   const [ballSize, setBallSize] = useState(20);
   const [showAlert, setShowAlert] = useState(false);
-
+  const [kineticEnergyRealTime, setKineticEnergyRealTime] = useState(0);
+  const [potentialEnergyRealTime, setPotentialEnergyRealTime] = useState(0);
 
   const simulatePendulum = () => {
-
     if (angle > 12) {
-      // Si el ángulo es muy grande, mostrar la alerta
       setShowAlert(true);
     }
-
+  
     if (length === 0 || mass === 0 || angle === 0) {
       alert('Los valores de longitud, masa y ángulo no pueden ser 0. Ingresa valores válidos.');
       return;
     }
-
+  
     const radians = (angle * Math.PI) / 180;
     const period = 2 * Math.PI * Math.sqrt(length / g);
     const amplitude = angle;
     const potentialEnergy = mass * g * length * (1 - Math.cos(radians));
     const kineticEnergy = 0.5 * mass * Math.pow(length, 2) * Math.pow(angle, 2);
-
+  
     setResults({
       period: period.toFixed(2),
       amplitude: parseFloat(amplitude).toFixed(2),
       potentialEnergy: potentialEnergy.toFixed(2),
       kineticEnergy: kineticEnergy.toFixed(2),
     });
-
+  
     setAmplitud(angle);
     setAceleracionGravedad(g);
-    setRodHeight(length); 
-    setBallSize(mass * 10); 
+    setRodHeight(length);
+    setBallSize(mass * 10);
     setShowAnimation(true);
+  
+    // Actualizar estados para la energía cinética y potencial en tiempo real
+    setKineticEnergyRealTime(kineticEnergy);
+    setPotentialEnergyRealTime(potentialEnergy);
   };
+  
 
   useEffect(() => {
     setShowAnimation(false);
@@ -59,10 +63,9 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Simulador de Pendulo</h1>
+      <h1 className={styles.title}>Simulador de Péndulo</h1>
 
       <div className={styles.splitContainer}>
-        {/* Primera mitad: Campos de texto y resultados */}
         <div className={styles.half}>
           <div className={styles.inputContainer}>
             <label className={styles.inputLabel}>Longitud del Péndulo (metros):</label>
@@ -94,7 +97,6 @@ const Home = () => {
           )}
         </div>
 
-        {/* Segunda mitad: Animación */}
         <div className={styles.half}>
           <div className={styles.animationContainer}>
             {showAnimation && (
@@ -117,7 +119,6 @@ const Home = () => {
           message="El ángulo es muy grande y la ecuación podría no ser precisa. Por favor, ingresa un ángulo menor."
         />
       )}
-
     </div>
   );
 };
