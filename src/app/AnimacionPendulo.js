@@ -21,9 +21,9 @@ const AnimacionPendulo = ({ angle, rodHeight, mass }) => {
         if (updateCounter % 7 === 0) {  // Actualizar cada 5 fotogramas
           const numericAngle = parseFloat(anim.animations[0].currentValue.match(/[+-]?([0-9]*[.])?[0-9]+/)[0]);
           const radians = (numericAngle * Math.PI) / 180;
-          const kineticEnergy = 0.5 * mass * Math.pow(rodHeight, 2) * Math.pow(numericAngle, 2);
+          const kineticEnergy = 0.5 * mass * Math.pow(rodHeight, 2) * Math.pow((angle -Math.abs(numericAngle)), 2); // Tomar el valor absoluto
           const potentialEnergy = mass * 9.81 * rodHeight * (1 - Math.cos(radians));
-    
+
           setCurrentKineticEnergy(kineticEnergy);
           setCurrentPotentialEnergy(potentialEnergy);
         }
@@ -43,7 +43,7 @@ const AnimacionPendulo = ({ angle, rodHeight, mass }) => {
       </div>
 
       <div ref={rodRef} className="pendulum-rod" style={{ height: rodHeight * 50 + 'px' }}>
-        <div className="pivot"></div>
+        <div className="pivot" style={{ transformOrigin: '50% 50%' }}></div>
         <div
           id="ball"
           className="ball"
