@@ -9,7 +9,7 @@ import AlertModal from './AlertModal';
 const g = 9.81;
 
 const Home = () => {
-  const [length, setLength] = useState(1);
+  const [length, setLength] = useState(2);
   const [mass, setMass] = useState(1);
   const [angle, setAngle] = useState(45);
   const [results, setResults] = useState(null);
@@ -17,7 +17,7 @@ const Home = () => {
   const [aceleracionGravedad, setAceleracionGravedad] = useState(0.1);
   const [showAnimation, setShowAnimation] = useState(false);
   const [rodHeight, setRodHeight] = useState(10);
-  const [ballSize, setBallSize] = useState(20);
+  const [ballSize, setBallSize] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
   const [kineticEnergyRealTime, setKineticEnergyRealTime] = useState(0);
   const [potentialEnergyRealTime, setPotentialEnergyRealTime] = useState(0);
@@ -91,8 +91,8 @@ const Home = () => {
               <h2>Resultados de la Simulación</h2>
               <p>Periodo: {results.period} segundos</p>
               <p>Amplitud: {results.amplitude} grados</p>
-              <p>Energía Potencial: {results.potentialEnergy} joules</p>
-              <p>Energía Cinética: {results.kineticEnergy} joules</p>
+              <p>Energía Potencial maxima: {results.potentialEnergy} joules</p>
+              <p>Energía Cinética maxima: {results.kineticEnergy} joules</p>
             </div>
           )}
         </div>

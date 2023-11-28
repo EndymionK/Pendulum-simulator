@@ -38,8 +38,10 @@ const AnimacionPendulo = ({ angle, rodHeight, mass }) => {
   return (
     <div className="pendulum-container">
       <div className="energy-labels">
-        <p>Energía Cinética en Tiempo Real: {currentKineticEnergy.toFixed(2)} joules</p>
-        <p>Energía Potencial en Tiempo Real: {currentPotentialEnergy.toFixed(2)} joules</p>
+        <p>Energía Potencial en Tiempo Real:</p>
+        <h2>{currentPotentialEnergy.toFixed(2)} joules</h2>
+        <p>Energía Cinética en Tiempo Real:</p>
+        <h2>{currentKineticEnergy.toFixed(2)} joules</h2>
       </div>
 
       <div ref={rodRef} className="pendulum-rod" style={{ height: rodHeight * 50 + 'px' }}>
@@ -47,7 +49,6 @@ const AnimacionPendulo = ({ angle, rodHeight, mass }) => {
         <div
           id="ball"
           className="ball"
-          style={{ width: 20 * mass + 'px', height: 20 * mass + 'px' }}
         ></div>
       </div>
     </div>

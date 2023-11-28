@@ -27,10 +27,13 @@
   left: -10px;
   border-radius: 50%;
   background-color: orange;
+  height: 20px;
+  width: 20px;
 }
   
 
 .energy-labels {
-  text-align: left;
-  min-width: 380px;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
 }
